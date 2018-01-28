@@ -1,0 +1,113 @@
+\documentclass[11pt]{article}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{algorithmicx}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{footnote}
+\makesavenoteenv{table}
+
+\begin{document}
+\title{Homework 2 of Numeric Linear Algebra\\Coding part}
+\date{2017/10/16}
+\author{Ziheng Chen, 1500010632}
+\maketitle
+For the first part, we test the algorithm with Hilbert matrix.
+The result is listed in Table \ref{tab:inf-norm-of-hilb} and \ref{tab:condition-number-of-hilb}.
+Notice that errors occur when $n=13$, which is probably a result of instability of the algorithm.
+\begin{table}[htpb]
+\centering
+\begin{tabular}{ccc}
+	\hline
+	n  & approx \footnote{using textbook alogrithm} & matlab est \footnote{using \em{norm(invhilb(n), Inf)}}   \\
+	\hline
+	5  & 4.132800e+05 & 4.132800e+05 \\
+	6  & 1.186542e+07 & 1.186542e+07 \\
+	7  & 3.799650e+08 & 3.799650e+08 \\
+	8  & 1.246305e+10 & 1.246305e+10 \\
+	9  & 3.887108e+11 & 3.887122e+11 \\
+	10 & 1.206995e+13 & 1.207164e+13 \\
+	11 & 4.071713e+14 & 4.085273e+14 \\
+	12 & 1.231828e+16 & 1.326189e+16 \\
+	13 & 1.728856e+17 & 4.164633e+17 \\
+	14 & 9.810466e+17 & 1.395562e+19 \\
+	15 & 3.330295e+17 & 4.638594e+20 \\
+	16 & 1.862704e+18 & 1.497539e+22 \\
+	17 & 1.267298e+18 & 4.886715e+23 \\
+	18 & 1.407073e+18 & 1.649753e+25 \\
+	19 & 1.392193e+18 & 5.428161e+26 \\
+	20 & 1.682092e+18 & 1.746535e+28 \\
+	\hline
+\end{tabular}
+\caption{Estimate value of $||A^{-1}||_{\infty}$}
+\label{tab:inf-norm-of-hilb}
+\end{table}
+
+\begin{table}[htpb]
+	\centering
+	\begin{tabular}{ccc}
+		\hline
+		n  & approx \footnote{using textbook alogrithm} & matlab est \footnote{using \em{norm(A, Inf) * norm(invhilb(n), Inf)}}   \\
+		\hline
+		5  & 9.436560e+05 & 9.436560e+05 \\
+		6  & 2.907028e+07 & 2.907028e+07 \\
+		7  & 9.851949e+08 & 9.851949e+08 \\
+		8  & 3.387279e+10 & 3.387279e+10 \\
+		9  & 1.099650e+12 & 1.099655e+12 \\
+		10 & 3.535249e+13 & 3.535744e+13 \\
+		11 & 1.229607e+15 & 1.233702e+15 \\
+		12 & 3.822621e+16 & 4.115445e+16 \\
+		13 & 5.497993e+17 & 1.324409e+18 \\
+		14 & 3.189934e+18 & 4.537758e+19 \\
+		15 & 1.105068e+18 & 1.539192e+21 \\
+		16 & 6.297297e+18 & 5.062775e+22 \\
+		17 & 4.358939e+18 & 1.680811e+24 \\
+		18 & 4.917872e+18 & 5.766066e+25 \\
+		19 & 4.939138e+18 & 1.925770e+27 \\
+		20 & 6.051730e+18 & 6.283580e+28 \\
+		\hline
+	\end{tabular}
+	\caption{Estimate value of $\kappa(A)_{\infty}$}
+	\label{tab:condition-number-of-hilb}
+\end{table}
+
+For the second part, we generate random unit vector $x$ and $b=Ax$, and try to solve the problem using Gaussian elimination with primary column selection.
+The estimated and real error is listed in Table \ref{tab:linear-problem}.
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{ccc}
+		\hline
+		n  & $\epsilon_{est}$\footnote{$=\kappa(A)_{est} * ||b||$} & $\epsilon_{real}$\footnote{$=||x-\hat{x}||$} \\
+		\hline
+		5  & 7.957249e-16      & 3.103380e-16       \\
+		6  & 3.662316e-15      & 7.065614e-16       \\
+		7  & 3.379302e-14      & 4.704034e-15       \\
+		8  & 8.653206e-15      & 1.818184e-15       \\
+		9  & 1.714683e-15      & 5.922544e-16       \\
+		10 & 9.458002e-15      & 2.556900e-15       \\
+		11 & 1.684938e-14      & 3.946487e-15       \\
+		12 & 8.366973e-14      & 3.823361e-14       \\
+		13 & 8.531101e-14      & 2.015751e-14       \\
+		14 & 1.449079e-12      & 2.358938e-13       \\
+		15 & 7.583530e-13      & 1.980812e-13       \\
+		16 & 7.586652e-13      & 2.542062e-13       \\
+		17 & 3.565862e-12      & 1.810823e-12       \\
+		18 & 2.559170e-11      & 6.505541e-12       \\
+		19 & 2.758708e-11      & 1.006693e-11       \\
+		20 & 1.192040e-11      & 4.650728e-12       \\
+		21 & 3.063102e-11      & 7.231951e-12       \\
+		22 & 1.305294e-10      & 4.768619e-11       \\
+		23 & 1.558221e-10      & 5.233952e-11       \\
+		24 & 3.836160e-10      & 8.171913e-11       \\
+		25 & 9.097837e-10      & 2.043591e-10       \\
+		26 & 2.206796e-09      & 8.136946e-10       \\
+		27 & 8.704684e-09      & 1.602664e-09       \\
+		28 & 3.382064e-09      & 1.299498e-09       \\
+		29 & 2.567989e-09      & 7.870574e-10       \\
+		30 & 1.829289e-07      & 3.430540e-08       \\
+		\hline
+	\end{tabular}
+	\caption{Estimated and real error in $\hat{x}$}
+	\label{tab:linear-problem}
+\end{table}
+\end{document}

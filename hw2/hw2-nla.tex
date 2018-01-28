@@ -1,0 +1,100 @@
+\documentclass[11pt]{article}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{algorithmicx}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\begin{document}
+\title{Homework 2 of Numeric Linear Algebra}
+\date{2017/10/16}
+\author{Ziheng Chen, 1500010632}
+\maketitle
+\_
+\\\\
+1.(2.3) By definition, we have
+$$||A||^2_F = \sum_{i,j=1}^{n} |a_{ij}|^2 = \sum_{j=1}^{n} \left(\sum_{i=1}^{n} |a_{ij}|^2\right) = \sum_{i=1}^n ||a_i||^2_2.$$
+\\\\
+2.(2.5) As for $\nu_1$:
+\begin{itemize}
+	\item \emph{Positive Definite:} $\nu_1(A) = n \cdot max_{1 \le i,j \le n} |a_{ij}| \ge 0$, and it reaches the equal sign when every $a_{ij}$ is zero, i.e. $A=0$.
+	\item \emph{Homogeneity:} Notice that 
+	\begin{align*}
+	\nu_1(\alpha A) &= n \cdot max_{1 \le i,j \le n} |\alpha a_{ij}| \\
+					&= \alpha n \cdot max_{1 \le i,j \le n} |a_{ij}| \\
+					&= |\alpha| \nu_1(A).
+	\end{align*}
+	\item \emph{The triangle inequality:} Notice that 
+	\begin{align*}
+	\nu_1(A+B) &= n \cdot max_{1 \le i,j \le n} |a_{ij}+b_{ij}| \\
+	&\le n \cdot max_{1 \le i,j \le n} (|a_{ij}|+|b_{ij}|) \\
+	&\le n \left( max_{1 \le i,j \le n} |a_{ij}| + max_{1 \le l,k \le n} |b_{lk}| \right)\\
+	&\le \nu_1(A) + \nu_1(B).
+	\end{align*}
+	\item \emph{Compatibility:} Notice that 
+	\begin{align*}
+	\nu_1(AB) &= n \cdot max_{1 \le i,j \le n} |\sum_{l=1}^n a_{il}b_{lj}| \\
+				&\le n \cdot max_{1 \le i,j \le n} \sum_{l=1}^n |a_{il}b_{lj}| \\
+				&\le n^2 \cdot max_{1 \le i,j \le n} |a_{ij}| \cdot max_{1 \le l,k \le n} |b_{lk}| \\
+				&\le \nu_1(A) \nu_1(B).
+	\end{align*}
+\end{itemize}
+As for $\nu(A)$, take $A_{ij}=1$, for every $1 \le i,j \le n$; then $\nu(A)=1$, but we have $\nu(A\times A)=\nu(n^2 A)=n^2$, so $\nu$ is not compatible at least when $n \ge 2$.
+\\\\
+3.(2.6)
+\begin{itemize}
+	\item If $A$ is positive definite, then we prove that $f(x)=\left(x^T A x\right)^{\frac{1}{2}}$ is a vector norm.
+	\begin{itemize}
+		\item $f(x) \ge 0$, and it reaches the equation only when $x=0$.
+		\item For any $\alpha$, $f(\alpha x)=\left(\alpha x^T A \alpha x \right)^{\frac{1}{2}}=|\alpha|f(x)$.
+		\item For any vector $x$ and $y$, without loss of generality we assume that $A$ is symmetric, so $A$ can be diagonalized $$A=U^TDU$$ where $U$ is orthogonal and $D=diag(d_1, d_2 \dots, d_n)$. So if we denote $\tilde{x} = Ux$ and $\tilde{y}=Uy$ we have 
+		\begin{align*}
+		f(x)+f(y) &= (\tilde{x}^TD\tilde{x})^{\frac{1}{2}}+(\tilde{y}^TD\tilde{y})^{\frac{1}{2}} \\
+		&=\left(\sum_{i=1}^n d_i \tilde{x}^2_i\right)^{\frac{1}{2}} + \left(\sum_{i=1}^n d_i \tilde{y}^2_i\right)^{\frac{1}{2}} \\
+		&\ge \left(\sum_{i=1}^n d_i (\tilde{x}_i+\tilde{y}_i)^2\right)^{\frac{1}{2}} \\
+		&= f(x+y),
+		\end{align*}
+		during which we have used the Minkowski inequality $$\left(\sum_{i=1}^n d_i \tilde{x}^2_i\right)^{\frac{1}{2}} + \left(\sum_{i=1}^n d_i \tilde{y}^2_i\right)^{\frac{1}{2}} \ge \left(\sum_{i=1}^n d_i (\tilde{x}_i+\tilde{y}_i)^2\right)^{\frac{1}{2}}.$$
+	\end{itemize}
+	\item Conversely, if $f(x)=\left( x^T A  x \right)^{\frac{1}{2}}$ is a vector norm, then for any $x$, $f(x) \ge 0$, so $A$ must be positive definite.
+\end{itemize}
+\_
+\\\\
+4.(2.8) Since $||A|| < 1$, so the series $\sum_{n=0}^{\infty} A^n$ converges.
+We claim that $(I-A)$ is invertible, and $(I-A)^{-1}=\sum_{n=0}^{\infty} A^n$.
+In fact, $$(I-A)\cdot\sum_{n=0}^{\infty} A^n = I - \lim_{n\to \infty} A^n=I.$$
+It is therefore easy to obtain that $$||(I-A)^{-1}|| = ||\sum_{n=0}^{\infty} A^n|| \le \sum_{n=0}^{\infty} ||A^n|| \le \sum_{n=0}^{\infty} ||A||^n = \frac{1}{1-||A||}.$$
+\\\\
+5.(2.9) From the definition of operator norm we know that
+\begin{align*}
+||A^{-1}||^{-1} &= \left(max_{||y||=1} ||A^{-1}y||\right)^{-1} \\
+				&= \left(max \frac{||A^{-1}y||}{||y||}\right)^{-1} \\
+				&= min \left(\frac{||A^{-1}y||}{||y||}\right)^{-1} \\
+				&= min \frac{||y||}{||A^{-1}y||} \\
+				&= min \frac{||Ax||}{||x||}\\
+				&= min_{||x||=1} ||Ax||.
+\end{align*}
+\\\\
+6.(2.12) Since $||I||^2 \ge ||I||$ and $||I|| \ge 0$, we have $||I|| \ge 1$, for every matrix norm.
+As a result, $$\kappa(A) = ||A||\cdot||A^{-1}|| \ge ||I|| \ge 1.$$
+\\\\
+7.(2.13) Notice that
+\begin{align*}
+||(A+E)^{-1}-A^{-1}|| &= ||\left((A+E)^{-1}\right) \cdot \left(A-(A+E)\right) \cdot \left(A^{-1}\right)|| \\
+&\le ||(A+E)^{-1}|| \cdot|| E || \cdot ||A^{-1}|| .
+\end{align*}
+\\\\
+8.(2.16) If we calculate $Ax$ in the following scheme
+$$S_1=fl(A_{i1}x_1),$$
+$$S_k=fl\left(S_{k-1}+fl(A_{ik}x_k)\right).$$
+For fixed row index $i$, according to Theorem 2.3.2, there exists $|\gamma_k|, |\delta_k| \le \mathbf{u}$ s.t.
+$$S_1=A_{i1}x_1(1+\gamma_1),$$
+$$S_k=[S_{k-1}+A_{ik}x_k(1+\gamma_k)](1+\delta_k),$$
+so the error matrix has entry
+$$E_{ij}=(1+\gamma_j)\prod_{k=j}^n(1+\delta_k)-1$$
+with convention $\delta_1=0$. 
+By applying Theorem 2.3.3, we give an estimate of $E_{ij}$
+$$|E_{i1}| = |(1+\gamma_1)\prod_{k=2}^n(1+\delta_k)-1| \le 1.01 (n-1) \mathbf{u}$$
+and when $j \ge 2$
+$$|E_{ij}| = |(1+\gamma_j)\prod_{k=j}^n(1+\delta_k)-1| \le 1.01 (n-j+1) \mathbf{u}.$$
+\end{document}
